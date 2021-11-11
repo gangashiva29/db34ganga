@@ -3,12 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var Mango = require("./models/mango");
+
+const connectionString =  
+process.env.MONGO_CON 
+mongoose = require('mongoose'); 
+mongoose.connect(connectionString,  
+{useNewUrlParser: true, 
+useUnifiedTopology: true});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var mangoRouter = require('./routes/mango');
 var addmodsRouter = require('./routes/addmods');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+
 
 
 
@@ -29,6 +39,7 @@ app.use('/users', usersRouter);
 app.use('/mango', mangoRouter);
 app.use('/addmods', addmodsRouter);
 app.use('/selector', selectorRouter);
+app.use('/', resourceRouter);
 
 
 
@@ -47,5 +58,41 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+async function recreateDB(){ 
+  // Delete everything 
+  await Mango.deleteMany(); 
+ 
+  let instance1 = new Mango({
+    Brand:"Alphonso Mangoes", 
+    size:"large", 
+    price:25
+  }); 
+  let instance2 = new Mango({
+    Brand:"Kesar Mangoes", 
+    size:"small", 
+    price:20
+  }); 
+  let instance3 = new Mango({
+    Brand:"Dasheri Mangoes", 
+    size:"medium", 
+    price:30
+  }); 
+  instance1.save( function(err,doc) { 
+      if(err) return console.error(err); 
+      console.log("First object saved") 
+  }); 
+  instance2.save( function(err,doc) { 
+    if(err) return console.error(err); 
+    console.log("Second object saved") 
+  }); 
+  instance3.save( function(err,doc) { 
+  if(err) return console.error(err); 
+  console.log("Third object saved") 
+  }); 
+} 
+ 
+let reseed = true; 
+if (reseed) { recreateDB();} 
 
 module.exports = app;
