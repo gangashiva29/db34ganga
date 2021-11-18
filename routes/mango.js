@@ -11,4 +11,7 @@ router.get('/create', mango_controlers.mango_create_Page);
 
 router.get('/update', mango_controlers.mango_update_Page); 
 
+router.get('/delete', mango_controlers.mango_delete_Page); 
+
+
 module.exports = router;

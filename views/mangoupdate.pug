@@ -1,43 +1,40 @@
-extends layout 
- 
-block content 
-  h1= title 
- 
-  - let mangoid = toShow._id 
-  - let Brand  = toShow.Brand  
-  - let mangoprice = toShow.price  
-  - let mangosize = toShow.size 
-   
-  div.row(class='mb-2') 
-    div.mr-1 ID is 
-    div #{mangoid} 
-  - let actionid = "/resource/mangoes/" + mangoid 
-  form(id='MangoForm', action= actionid, method="PUT") 
-    div.form-group 
-        label.mangoAttr(for='Brand') Mango type 
-        input#Brand(type='text', name='Brand', value= Brand  ) 
-    div.form-group 
-        label.mangoAttr(for='size') Mango size 
-        input#size(type='number', name='size', value= mangosize ) 
-    div.form-group 
-        label.mangoAttr(for='price') Mango cost 
-        input#price(type='number', name='price', value= mangoprice ) 
-    input(type="submit") 
- 
-  script. 
-    document.forms['MangoForm'].addEventListener('submit', (event) => { 
-      event.preventDefault(); 
-      // TODO do something here to show user that form is being submitted 
-      fetch(event.target.action, { 
-        method: 'PUT', 
-        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
-      }).then((resp) => { 
-        return resp.json(); // or resp.text() or whatever the server sends 
-      }).then((body) => { 
-        alert("Update succeded") 
-        // TODO handle body 
-      }).catch((error) => { 
-        // TODO handle error 
-        alert("Update failed " + error ) 
-      }); 
-    }); 
+extends layout
+block content
+ h1= title
+ - let mangoid = toShow._id
+ - let Brand = toShow.Brand
+ - let mangosize = toShow.size
+ - let mangoprice = toShow.price
+
+ div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{mangoid}
+    - let actionid = "/resource/mango/" + mangoid
+    form(id='MangoForm', action= actionid, method="PUT")
+        div.form-group
+            label.mangoAttr(for='Brand') Mango Name
+            input#Brand(type='text', name='Brand', value= Brand )
+        div.form-group
+            label.mangoAttr(for='size') Mango size
+            input#mangosize(type='number', name='mangosize', value= mangosize )
+        div.form-group
+            label.mangoAttr(for='mangoprice') Mango Price
+            input#mangoprice(type='number', name='mangoprice', value= mangoprice )
+        input(type="submit")
+ script.
+    document.forms['MangoForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+            method: 'PUT',
+            body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+            }).catch((error) => {
+        // TODO handle error
+        alert("update failed " + error )
+        });
+    });
