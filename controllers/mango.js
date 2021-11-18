@@ -121,3 +121,16 @@ exports.mango_update_Page =  async function(req, res) {
       res.send(`{'error': '${err}'}`); 
   } 
 }; 
+
+exports.mango_delete_Page = async function(req, res) { 
+  console.log("Delete view for id "  + req.query.id) 
+  try{ 
+      result = await Mango.findById(req.query.id) 
+      res.render('mangodelete', { title: 'Mango Delete', toShow: 
+result }); 
+  } 
+  catch(err){ 
+      res.status(500) 
+      res.send(`{'error': '${err}'}`); 
+  } 
+}; 

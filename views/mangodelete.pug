@@ -1,0 +1,52 @@
+extends layout
+
+block content
+ h1= title
+
+ if (toShow == null)
+    h2 No instance to delete
+ else
+ - let mangoid = toShow._id
+ - let Brand  = toShow.Brand 
+ - let mangosize  = toShow.size
+ - let mangoprice = toShow.price 
+ - let actionid = "/resource/mango/" + mangoid
+ script let actionid = "#{actionid}"
+ div
+    div.row
+        div(class='mangoAttr mr-3') Mango ID is:
+        div #{mangoid}
+    div.row
+        div(class='mangoAttr mr-3') Mango Name is:
+        div #{Brand}
+    div.row
+        div(class='mangoAttr mr-3') Mango size is:
+        div #{mangosize}
+    div.row
+        div(class='mangoAttr mr-3') Mango price is:
+        div #{mangoprice}
+    button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+ script.
+    function cancel() {
+    // Go back to the home page for the handbag collection
+    window.location.href='/mango'
+    }
+ script.
+    function deleteOnid() {
+    console.log("starting delete")
+    // delete first
+    fetch(actionid, {
+    method: 'DELETE' // Don't need a body for the delete
+    }).then((resp) => {
+    return resp.json(); // or resp.text() or whatever the server sends
+    }).then((body) => {
+    alert("Delete succeded")
+    window.location.href='/mango'
+    // TODO handle body
+    }).catch((error) => {
+    // TODO handle error
+    alert("Delete failed " + error )
+    });
+    }
