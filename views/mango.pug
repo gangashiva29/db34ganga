@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  - let destination = `dispatch(\"/mango/create)` 
+  button.btn( class="btn-primary ml-1", onclick= createPage) Create 
   h1= title
   - let items = results; 
   - let o;
@@ -15,5 +17,9 @@ block content
     div(class='row m-1')
       each o, c in items 
         - let destination = `dispatch(\"/mango/update?id=${o._id}\")` 
+        - let detailpage = `dispatch(\"/mango/detail?id=${o._id}\")` 
+        - let deletepage = `dispatch(\"/mango/delete?id=${o._id}\")` 
         div(class='row-sm-3 m-1' onclick=`buy(${c})`) #{o}
         button.btn( class="btn-primary ml-1", onclick= destination) Update 
+        button.btn( class="btn-primary ml-1", onclick= detailpage) Detail 
+        button.btn( class="btn-primary ml-1", onclick= deletepage) Delete 
